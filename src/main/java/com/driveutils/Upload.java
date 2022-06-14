@@ -5,6 +5,7 @@ import com.google.api.services.drive.Drive;
 import lombok.extern.slf4j.Slf4j;
 import com.google.api.services.drive.model.*;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
+@Component
 public class Upload {
 
     private static final String URL_FOLDER = "https://drive.google.com/drive/u/0/folders/";

@@ -1,6 +1,7 @@
 package com.driveutils;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
 
 import java.util.Optional;
 
@@ -10,7 +11,8 @@ public class UtilMessageError {
     private UtilMessageError() {
     }
 
-    public static void printMessageError(Throwable e) {
+    @Bean
+    protected static void printMessageError(Throwable e) {
         String message = Optional.of(e)
                 .map(Throwable::getCause)
                 .map(Throwable::getCause)

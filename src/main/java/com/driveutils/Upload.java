@@ -2,8 +2,12 @@ package com.driveutils;
 
 import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.Drive;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import com.google.api.services.drive.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +19,7 @@ import java.util.Map;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class Upload {
 
     private static final String URL_FOLDER = "https://drive.google.com/drive/u/0/folders/";
@@ -114,7 +119,7 @@ public class Upload {
             do {
                 FileList result = Config.buildDrive().files().list().setQ("mimeType = 'application/vnd.google-apps.folder'").setSpaces("drive").setFields("nextPageToken, files(id, name)").setPageToken(pageToken).execute();
                 for (com.google.api.services.drive.model.File file : result.getFiles()) {
-                    log.info("Pasta encontrada: {}", file.getName());
+                    log.debug("Pasta encontrada: {}", file.getName());
 
                     listPath.put(file.getName(), file.getId());
                 }
@@ -155,7 +160,9 @@ public class Upload {
         }
     }
 
-//    public static void main(String[] args) {
+    @EventListener(ContextRefreshedEvent.class)
+    public static void main(String[] args) {
+
         //TESTES ->>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 //        createFolder(Config.buildDrive());
 //        try {
@@ -169,8 +176,9 @@ public class Upload {
 //        }
 //        uploadInExistentFolder(Config.buildDrive(), "Classroom", "aa.rar", TypeContents.RAR.getType());
 //            createFolder(Config.buildDrive(), "nova pasta");
-//        uploadAndCreateFolder("Curriculo.pdf", "nova pasta", "a.pdf", TypeContents.PDF.getType());
+        uploadAndCreateFolder("RAR.RAR", "nova pasta", "aa.rar", TypeContents.RAR.getType());
         // <<<<<<<<<<<<<<<<<<<<<<<<
 
-//    }
+    }
+
 }

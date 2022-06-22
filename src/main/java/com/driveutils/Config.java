@@ -12,11 +12,14 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,21 +28,23 @@ import java.util.List;
 * */
 
 @Slf4j
+@Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class Config {
-
     private static final String APPLICATION_NAME = "Animati";
+
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     /**
      * Diretorio onde vai ser armazenado o token de autenticacao.
      */
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
 
+    private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
+
     /**
      * Global instancia dos scopos para as operações
      */
     private static final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE);
-    private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
-
     /**
      * Creates an authorized Credential object.
      *
@@ -65,7 +70,7 @@ public class Config {
 
     //constroi uma autorização para o cliente
     @Bean
-    public static Drive buildDrive() {
+    protected static Drive buildDrive() {
         try {
             final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
             return new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT)).setApplicationName(APPLICATION_NAME).build();

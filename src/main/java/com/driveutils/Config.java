@@ -39,7 +39,7 @@ public class Config {
      */
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
 
-    private static final String CREDENTIALS_FILE_PATH = "etc/animati/exp-laudo-prontuario";
+    private static final String CREDENTIALS_FILE_PATH = "etc/animati/exp-laudo-prontuario/credentials.json";
     /**
      * Global instancia dos scopos para as operações
      */

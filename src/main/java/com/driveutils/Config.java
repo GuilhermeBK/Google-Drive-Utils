@@ -39,8 +39,7 @@ public class Config {
      */
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
 
-    private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
-
+    private static final String CREDENTIALS_FILE_PATH = "etc/animati/exp-laudo-prontuario";
     /**
      * Global instancia dos scopos para as operações
      */
@@ -54,9 +53,9 @@ public class Config {
      */
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
         // Carrega as chaves secretas do arquivo json
-        InputStream credentialPath = Config.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+        InputStream credentialPath = new FileInputStream(CREDENTIALS_FILE_PATH);
         if (credentialPath == null) {
-            log.error("Credencias nao encontradas: {}", CREDENTIALS_FILE_PATH);
+            log.error("Credencias nao encontradas: {}", credentialPath.toString());
             throw new FileNotFoundException();
         }
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(credentialPath));

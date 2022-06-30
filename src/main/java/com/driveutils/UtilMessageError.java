@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import java.util.Optional;
 
 @Slf4j
-public class UtilMessageError {
+class UtilMessageError {
 
     private UtilMessageError() {
     }

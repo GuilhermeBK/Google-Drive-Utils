@@ -16,12 +16,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /** Biblioteca para facilitar a comunicação com os serviços do google drive
 * @author Guilherme Kirsch
@@ -30,16 +30,17 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class Config {
+ public class Config {
+
     private static final String APPLICATION_NAME = "Animati";
 
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     /**
      * Diretorio onde vai ser armazenado o token de autenticacao.
      */
-    private static final String TOKENS_DIRECTORY_PATH = "tokens";
+    private static final String TOKENS_DIRECTORY_PATH = Path.getPath() + "/tokens";
 
-    private static final String CREDENTIALS_FILE_PATH = "etc/animati/exp-laudo-prontuario/credentials.json";
+    private static final String CREDENTIALS_FILE_PATH = Path.getPath() + "/credentials.json";
     /**
      * Global instancia dos scopos para as operações
      */
@@ -57,6 +58,8 @@ public class Config {
         if (credentialPath == null) {
             log.error("Credencias nao encontradas: {}", credentialPath.toString());
             throw new FileNotFoundException();
+        } else {
+            log.info("ACHOU AS CREDENCIAIS");
         }
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(credentialPath));
 
@@ -80,6 +83,5 @@ public class Config {
         }
 
     }
-
 
 }

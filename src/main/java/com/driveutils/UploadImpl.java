@@ -5,8 +5,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import com.google.api.services.drive.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -19,9 +17,7 @@ import java.util.Map;
 @Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class UploadImpl {
-
-    private final Config config;
+public class UploadImpl{
 
     private static final String URL_FOLDER = "https://drive.google.com/drive/u/0/folders/";
 
@@ -29,6 +25,7 @@ public class UploadImpl {
     /*
     * UploadImpl de arquivo, criando uma pasta para incluir o arquivo
     * */
+
     public static String uploadAndCreateFolder(String fileName, String folderName, String path, String type){
         log.info("chamando >>>>>>>>> uploadAndCreateFolder");
         String folder = "";
@@ -92,7 +89,6 @@ public class UploadImpl {
             java.io.File filePath = new java.io.File(path);
             FileContent mediaContent = new FileContent(type, filePath);
 
-
             com.google.api.services.drive.model.File file = Config.buildDrive().files()
                     .create(fileMetadata, mediaContent)
                     .setFields("id, parents").execute();
@@ -143,7 +139,6 @@ public class UploadImpl {
     /*
     * Cria pasta
     * */
-
     public static String createFolder(String name){
         com.google.api.services.drive.model.File fileMetadata = new com.google.api.services.drive.model.File();
         fileMetadata.setName(name);
@@ -185,7 +180,7 @@ public class UploadImpl {
 //            createFolder(Config.buildDrive(), "nova pasta");
 //        uploadImpl.uploadAndCreateFolder("RAR.RAR", "nova pasta", "aa.rar", TypeContents.RAR.getType());
         // <<<<<<<<<<<<<<<<<<<<<<<<
-        uploadAndCreateFolder("RAR.RAR", "nova pasta", "aa.rar", TypeContents.RAR.getType());
+//        Upload.uploadAndCreateFolder("RAR.RAR", "nova pasta", "aa.rar", TypeContents.RAR.getType());
     }
 
 }
